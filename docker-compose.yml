@@ -1,0 +1,31 @@
+services:
+  server:
+    container_name: mvp_woke_server
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DBUSER=${DBUSER}
+      - DBPASSWORD=${DBPASSWORD}
+      - DBCOLLECTION=${DBCOLLECTION}
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - database
+  database:
+    container_name: mvp_woke_database
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - database_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DBUSER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DBPASSWORD}
+      - MONGO_INITDB_DATABASE=${DBCOLLECTION}
+
+volumes:
+  database_data:
