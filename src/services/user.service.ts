@@ -53,4 +53,43 @@ export class UserService {
       }
     }
   }
+
+  public async authenticateUser(
+    username: string,
+    email: string,
+  ): Promise<{ user: UserInterface; token: string }> {
+    try {
+      const JWT_SECRET = process.env.SECRET_KEY;
+      let user: UserInterface | null = null;
+  
+      if (username) {
+        user = await UserModel.findOne({ username });
+      } else if (email) {
+        user = await UserModel.findOne({ email });
+      }
+  
+      if (!user) {
+        throw new Error("User not found.");
+      }
+  
+      if (!JWT_SECRET) {
+        throw new Error("JWT_SECRET is not defined in environment variables.");
+      }
+  
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+        expiresIn: "1h",
+      });
+  
+      return { user: user, token };
+    } catch (error) {
+      console.error("Error authenticating user:", error);
+  
+      if (error instanceof Error) {
+        throw new Error(`Failed to authenticate user: ${error.message}`);
+      } else {
+        throw new Error(`Failed to authenticate user: ${JSON.stringify(error)}`);
+      }
+    }
+  }
+  
 }
