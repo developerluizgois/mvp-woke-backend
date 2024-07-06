@@ -6,5 +6,5 @@ export interface UserInterface extends Document {
   email: string;
   password: string;
   phone: string;
-  dateOfBirth: string;
+  dateOfBirth: Date | string;
 };
