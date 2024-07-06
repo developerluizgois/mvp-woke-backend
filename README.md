@@ -226,3 +226,49 @@ Recomendamos utilizar o [Postman](https://www.postman.com/) para explorar e test
     "message": "Data de nascimento inválida"
   }
   ```
+#### Autenticar Usuário
+- **URL**: `POST` [http://localhost:3001/api/v1/user/login](http://localhost:3001/api/v1/user/login)
+- **Parâmetros de Requisição**: Nenhum.
+- **Autenticação**: Não é necessário token de autenticação.
+- **Corpo da Requisição**:
+  ```json
+  {
+    "username": "username",
+    "password": "*******",
+  }
+  ```
+  * username (string): identificador de usuário.
+  * password (string): Senha de acesso do usuário.
+
+Para fazer login disponibilizamos duas opções, acima você realizar login com seu usuário e abaixo você utiliza seu E-mail. Qualquer uma das opções realiza a autenticação.
+
+- **Corpo da Requisição**:
+  ```json
+  {
+    "email": "email",
+    "password": "*******",
+  }
+  ```
+  * email (string): Endereço de email do usuário.
+  * password (string): Senha de acesso do usuário.
+- **Resposta 200 (OK)**:
+  ```json
+  {
+    "message": "Usuário autenticado com sucesso",
+    "user": {
+        "id": "6689b0bdda818ddb4ee5a552",
+        "username": "username",
+        "fullName": "Firstname Lastname",
+        "email": "email@company.com",
+        "phone": "12345678910",
+        "dateOfBirth": "2011-11-11T02:00:00.000Z"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njg5YjBiZGRhODE4ZGRiNGVlNWE1NTIiLCJpYXQiOjE3MjAyOTk3MDksImV4cCI6MTcyMDMwMzMwOX0.X7hIKsW6zs2i1P8q9ujQw-D8Suv856tIuL7K9PkGRi4"
+  }
+  ```
+- **Resposta 401 (UNAUTHORIZED)**:
+  ```json
+  {
+    "message": "Credenciais inválidas."
+  }
+  ```
