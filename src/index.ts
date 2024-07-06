@@ -1,17 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import router from "./routes";
 
 const server = express();
 
 server.use(express.json());
 server.use(cors());
 
-server.get("/api", (_req: Request, res: Response) =>
-  res.status(200).json({ status: 'OK', message: 'Server is up and running.' })
-);
-server.get("/api/error", (_req: Request, _res: Response, next: NextFunction) => {
-  next(new Error("Internal server error"));
-});
+server.use("/api/v1", router);
 
 server.use((_req: Request, _res: Response, next: NextFunction) => {
   const error: any = new Error('Route not found');
