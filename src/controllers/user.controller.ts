@@ -10,7 +10,7 @@ export class UserController {
     this.userService = new UserService();
   }
 
-  public createUser = async (req: Request, res: Response) => {
+ public createUser = async (req: Request, res: Response) => {
     const { username, fullName, email, password, phone, dateOfBirth } =
       req.body;
 
@@ -33,7 +33,33 @@ export class UserController {
           phone: user.phone,
           dateOfBirth: user.dateOfBirth
         },
-        token,
+         token,
+      });
+    } catch (error) {
+      errorHandler(res, error as Error);
+    }
+  };
+
+  public authenticateUser = async (req: Request, res: Response) => {
+    const { username, email } =
+      req.body;
+
+    try {
+      const { user, token } = await this.userService.authenticateUser(
+        username,
+        email
+      );
+      res.status(HTTP_STATUS.OK).json({
+        message: "Usuário authenticado com sucesso",
+        user: {
+          id: user._id,
+          username: user.username,
+          fullName: user.fullName,
+          email: user.email,
+          phone: user.phone,
+          dateOfBirth: user.dateOfBirth
+        },
+         token,
       });
     } catch (error) {
       errorHandler(res, error as Error);
