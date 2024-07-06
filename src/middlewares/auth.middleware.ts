@@ -8,6 +8,7 @@ import {
   dateOfBirthRegex
 } from "../utils/user.regex";
 import UserModel from "../models/user.model";
+import bcrypt from "bcrypt";
 
 export function validationRegistrationCredentials(
   req: Request,
@@ -60,6 +61,34 @@ export function validationRegistrationCredentials(
   }
 
   next();
+}
+
+export async function validationAuthenticateCredentials(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { username, email, password } = req.body;
+
+  try {
+    const user = await UserModel.findOne({
+      $or: [{ username }, { email }]
+    });
+
+    if (!user) {
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: "Credenciais inválidas." });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: "Credenciais inválidas." });
+    }
+    next();
+  } catch (error) {
+    console.error("Error authenticating user:", error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
 }
 
 export async function validateExistingCredentials(
