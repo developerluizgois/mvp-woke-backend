@@ -272,3 +272,34 @@ Para fazer login disponibilizamos duas opções, acima você realizar login com 
     "message": "Credenciais inválidas."
   }
   ```
+
+#### Buscar dados de um usuário
+- **URL**: `POST` [http://localhost:3001/api/v1/user/login](http://localhost:3001/api/v1/user/:id)
+- **Parâmetros de Requisição**: id.
+- **Autenticação**: Bearer Token (Authorization).
+- **Corpo da Requisição**: Não é necessário corpo da requisição.
+- **Resposta 200 (OK)**:
+  ```json
+  {
+    "message": "Dados do usuário obtidos com sucesso",
+    "user": {
+        "username": "username",
+        "fullName": "Firstname Lastname",
+        "email": "email@company.com",
+        "phone": "12345678910",
+        "dateOfBirth": "2011-11-11T02:00:00.000Z"
+    }
+  }
+  ```
+  - **Resposta 403 (FORBIDDEN)**:
+  ```json
+  {
+    "message": "O token não corresponde ao ID fornecido.",
+  }
+  ```
+  - **Resposta 404 (NOT_FOUND)**:
+  ```json
+  {
+    "message": "Usuário não encontrado",
+  }
+  ```
