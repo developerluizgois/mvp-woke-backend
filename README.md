@@ -275,7 +275,7 @@ Para fazer login disponibilizamos duas opções, acima você realizar login com 
 
 #### Buscar dados de um usuário
 - **URL**: `POST` [http://localhost:3001/api/v1/user/:id](http://localhost:3001/api/v1/user/:id)
-- **Parâmetros de Requisição**: id.
+- **Parâmetros de Requisição**: id do usuário.
 - **Autenticação**: Bearer Token (Authorization).
 - **Corpo da Requisição**: Não é necessário corpo da requisição.
 - **Resposta 200 (OK)**:
@@ -301,5 +301,49 @@ Para fazer login disponibilizamos duas opções, acima você realizar login com 
   ```json
   {
     "message": "Usuário não encontrado",
+  }
+  ```
+
+
+
+
+
+
+
+
+
+#### Enviar dados de um usuário para uma empresa
+- **URL**: `POST` [http://localhost:3001/api/v1/send/:id](http://localhost:3001/api/v1/send/:id)
+- **Parâmetros de Requisição**: id do usuário.
+- **Autenticação**: Bearer Token (Authorization).
+- **Corpo da Requisição**:
+  ```json
+  {
+    "company": "company",
+  }
+  ```
+  * company (string): Nome da empresa que receberá os dados do usuário.
+- **Resposta 200 (OK)**:
+  ```json
+  {
+    "message": "Dados enviados com sucesso para <Nome da empresa>",
+  }
+  ```
+  - **Resposta 403 (FORBIDDEN)**:
+  ```json
+  {
+    "message": "O token não corresponde ao ID fornecido.",
+  }
+  ```
+  - **Resposta 404 (NOT_FOUND)**:
+  ```json
+  {
+    "message": "Usuário não encontrado",
+  }
+  ```
+  - **Resposta 400 (BAD REQUEST)**:
+  ```json
+  {
+    "message": "Nome da empresa inválido ou não informado",
   }
   ```
