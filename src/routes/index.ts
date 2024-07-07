@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Router } from 'express';
 import userRouter from "./user.routes";
+import sendDataRouter from "./sendData.routes";
 
 const router = Router();
 
@@ -11,5 +12,6 @@ router.get("/error", (_req: Request, _res: Response, next: NextFunction) => {
   next(new Error("Internal server error"));
 });
 router.use("/user", userRouter);
+router.use("/send", sendDataRouter);
 
 export default router;
