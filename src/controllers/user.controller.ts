@@ -65,4 +65,24 @@ export class UserController {
       errorHandler(res, error as Error);
     }
   };
+
+  public findUserById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+      const { user } = await this.userService.findUserById(id);
+      res.status(HTTP_STATUS.OK).json({
+        message: "Dados do usuário obtidos com sucesso",
+        user: {
+          username: user.username,
+          fullName: user.fullName,
+          email: user.email,
+          phone: user.phone,
+          dateOfBirth: user.dateOfBirth
+        }
+      });
+    } catch (error) {
+      errorHandler(res, error as Error);
+    }
+  };
 }
