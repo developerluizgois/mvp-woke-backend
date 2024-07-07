@@ -274,7 +274,7 @@ Para fazer login disponibilizamos duas opções, acima você realizar login com 
   ```
 
 #### Buscar dados de um usuário
-- **URL**: `POST` [http://localhost:3001/api/v1/user/login](http://localhost:3001/api/v1/user/:id)
+- **URL**: `POST` [http://localhost:3001/api/v1/user/:id](http://localhost:3001/api/v1/user/:id)
 - **Parâmetros de Requisição**: id.
 - **Autenticação**: Bearer Token (Authorization).
 - **Corpo da Requisição**: Não é necessário corpo da requisição.
